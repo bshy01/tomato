@@ -53,14 +53,26 @@ def validate(model, loader, criterion, device):
             
     return running_loss / len(loader), 100. * correct / total
 
-def run(config_path):
+def run(args):
     # Load configs
     with open('configs/base_config.yaml', 'r') as f:
         base_config = yaml.safe_load(f)
-    with open(config_path, 'r') as f:
+    with open(args.config, 'r') as f:
         exp_config = yaml.safe_load(f)
     
+    # Merge configs
     config = {**base_config, **exp_config}
+    
+    # Override config with command-line arguments if provided
+    if args.model:
+        config['model'] = args.model
+    if args.lr:
+        config['learning_rate'] = args.lr
+    if args.epochs:
+        config['epochs'] = args.epochs
+    if args.batch_size:
+        config['batch_size'] = args.batch_size
+    
     set_seed(config.get('seed', 42))
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -71,7 +83,13 @@ def run(config_path):
     model_name = config['model']
     model_specs = get_model_specs(model_name)
     
-    print(f"Applying specs for {model_name}: {model_specs}")
+    print(f"--- Experiment Setup ---")
+    print(f"Model: {model_name}")
+    print(f"LR: {config['learning_rate']}")
+    print(f"Epochs: {config['epochs']}")
+    print(f"Batch Size: {config['batch_size']}")
+    print(f"Specs: {model_specs}")
+    print(f"------------------------")
 
     # Data
     train_loader, val_loader, num_classes = get_dataloaders(
@@ -100,7 +118,14 @@ def run(config_path):
         print(f"Val Loss: {val_loss:.4f} | Val Acc: {val_acc:.2f}%")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="Tomato Leaf Classification Training")
     parser.add_argument("--config", type=str, required=True, help="Path to experiment config file")
+    
+    # Arguments to override config
+    parser.add_argument("--model", type=str, choices=['resnet50', 'efficientnet_b0', 'vit'], help="Model architecture")
+    parser.add_argument("--lr", type=float, help="Learning rate")
+    parser.add_argument("--epochs", type=int, help="Number of epochs")
+    parser.add_argument("--batch_size", type=int, help="Batch size")
+    
     args = parser.parse_args()
-    run(args.config)
+    run(args)
