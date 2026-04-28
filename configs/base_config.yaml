@@ -1,0 +1,4 @@
+# Base configuration
+seed: 42
+data_path: "data/"
+output_path: "outputs/"

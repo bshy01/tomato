@@ -1,0 +1,15 @@
+# Data and Weights
+data/
+outputs/
+*.pt
+*.pth
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# OS
+.DS_Store
