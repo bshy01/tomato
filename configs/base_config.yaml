@@ -1,4 +1,4 @@
 # Base configuration
 seed: 42
-data_path: "data/"
+data_path: "/shared/data/tomato"
 output_path: "outputs/"
