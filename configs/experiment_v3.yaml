@@ -1,0 +1,5 @@
+# Experiment v3: EfficientNet-B0
+model: "efficientnet_b0"
+learning_rate: 0.001
+batch_size: 32
+epochs: 10
