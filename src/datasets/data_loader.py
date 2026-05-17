@@ -19,7 +19,7 @@ def get_dataloaders(data_dir, batch_size, model_specs):
 
     try:
         train_dataset = datasets.ImageFolder(root=f"{data_dir}/train", transform=transform)
-        val_dataset = datasets.ImageFolder(root=f"{data_dir}/val", transform=transform)
+        val_dataset = datasets.ImageFolder(root=f"{data_dir}/valid", transform=transform)
         
         train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
         val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
