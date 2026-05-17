@@ -1,0 +1,5 @@
+# Experiment v2: ViT with LR 0.001
+model: "vit"
+learning_rate: 0.001
+batch_size: 16
+epochs: 20
