@@ -1,5 +1,12 @@
 import sys
 import os
+
+# 프로젝트 루트 디렉토리를 PYTHONPATH에 추가
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
 import torch
 import torch.nn as nn
 import numpy as np

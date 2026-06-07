@@ -7,7 +7,7 @@ from peft import PeftModel
 app = Flask(__name__)
 
 base_model_id = "Qwen/Qwen2.5-7B-Instruct"
-adapter_dir = "/home/jaemu/tomato/results/tomato_llm_lora_v3/checkpoint-4835"
+adapter_dir = "/shared/ysh/tomato/tomato_llm_lora_v3/checkpoint-4835"
 
 print("⚙️ 리눅스 GPU 가중치 세션 가동 중...")
 bnb_config = BitsAndBytesConfig(

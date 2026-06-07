@@ -64,7 +64,19 @@ class InferenceWorker(QThread):
 
     def run(self):
         try:
-            weight_path = os.path.join(project_root, "results", f"{self.model_name}.pth")
+            # 기본 경로: outputs/{model_name}.pth
+            weight_path = os.path.join(project_root, "outputs", f"{self.model_name}.pth")
+            
+            # 만약 위 경로에 파일이 없고, train.py가 생성한 'best_experiment_vX.pth' 형식을 따를 경우를 위한 매핑
+            if not os.path.exists(weight_path):
+                exp_mapping = {
+                    'resnet50': 'best_experiment_v1.pth',
+                    'vit': 'best_experiment_v2.pth',
+                    'efficientnet_b0': 'best_experiment_v3.pth'
+                }
+                if self.model_name in exp_mapping:
+                    weight_path = os.path.join(project_root, "outputs", exp_mapping[self.model_name])
+            
             specs = get_model_specs(self.model_name)
             transform = transforms.Compose([
                 transforms.Resize((specs['input_size'], specs['input_size'])),
